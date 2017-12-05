@@ -69,6 +69,8 @@ def normalize_data(filename):
             normal_result[z] = normal_result[z] * 5 - 25
 
         lines[x] = normal_result
+        #print normal_result
+
 
     number_of_results = len(lines)
     return group_by_range(lines, number_of_results)
@@ -134,13 +136,13 @@ def group_by_range(results, n):
 
         if x[1] <= 33.3:
             aL = sum_interests(aL, x)
-            caL += 0
+            caL += 1
         elif x[1] >= 33.4 and x[1] <= 66.6:
             aM = sum_interests(aM, x)
-            caM = 0
+            caM += 1
         else:
             aH = sum_interests(aH, x)
-            caH += 0
+            caH += 1
 
         if x[2] <= 33.3:
             cL = sum_interests(cL, x)
