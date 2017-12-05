@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+number_of_results = 0
+
 def build_plot(chart_title, n, a, c, e, o):
     # data to plot
     n_groups = 3
@@ -71,7 +73,7 @@ def normalize_data(filename):
         lines[x] = normal_result
         #print normal_result
 
-
+    global number_of_results
     number_of_results = len(lines)
     return group_by_range(lines, number_of_results)
 
@@ -272,3 +274,37 @@ def graph_personality_data(filename):
     e =(low[4][3],med[4][3],high[4][3])
     o =(low[4][4],med[4][4],high[4][4])
     build_plot(title, n, a, c, e, o)
+
+    global number_of_results
+    title = "Desirability of Personality Traits (n = " + str(number_of_results) + ")"
+    n =(low[0][0]+med[0][0]+high[0][0]) / 3
+    a =(low[1][1]+med[1][1]+high[1][1]) / 2
+    c =(low[2][2]+med[2][2]+high[2][2]) / 3
+    e =(low[3][3]+med[3][3]+high[3][3]) / 3
+    o =(low[4][4]+med[4][4]+high[4][4]) / 2
+    all = (n, a, c, e, o)
+    overall_interests_plot(title, all)
+
+def overall_interests_plot(chart_title, all):
+    n_groups = 5
+
+
+    # create plot
+    fig, ax = plt.subplots()
+    index = np.arange(5)
+    bar_width = 0.4
+    opacity = 0.8
+
+    rects1 = plt.bar(index, all, bar_width,
+                     alpha=opacity,
+                     color=('y','g','m','b','c'))
+
+    plt.xlabel('Dimension')
+    plt.ylabel('Average Expressed Interest')
+    plt.title(chart_title)
+    plt.xticks(index, ('Neuroticism', 'Agreeableness', 'Conscientiousness', 'Extraversion', 'Openness'))
+    plt.legend()
+
+    plt.tight_layout()
+    plt.show()
+
