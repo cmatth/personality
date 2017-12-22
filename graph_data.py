@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 
 
 number_of_results = 0
+reversed_answers = [6,9,10,12,17,23,29,31,32,34,35,37,39,41,44,45,47,49,50]
 
 def build_plot(chart_title, n, a, c, e, o):
     # data to plot
@@ -56,17 +57,8 @@ def normalize_data(filename):
     for x in range(0, len(raw_results)):
         list = raw_results[x].split(',')
         list = [float(z) for z in list]
-        record_score = [0] * 10
-        record_score[0] = list[0] + list[1] + list[2] + list[3] + list[4]
-        record_score[1] = reverse_score(list[5]) + list[6] + list[7] + reverse_score(list[8]) + reverse_score(list[9])
-        record_score[2] = list[10] + reverse_score(list[11]) + list[12] + list[13] + list[14]
-        record_score[3] = list[15] + reverse_score(list[16]) + list[17] + list[18] + list[19]
-        record_score[4] = list[20] + list[21] + reverse_score(list[22]) + list[23] + list[24]
-        record_score[5] = list[25] + list[26] + list[27] + reverse_score(list[28]) + list[29]
-        record_score[6] = reverse_score(list[30]) + reverse_score(list[31]) + list[32] + reverse_score(list[33]) + reverse_score(list[34])
-        record_score[7] = list[35] + reverse_score(list[36]) + list[37] + reverse_score(list[38]) + list[39]
-        record_score[8] = reverse_score(list[40]) + list[41] + list[42] + reverse_score(list[43]) + reverse_score(list[44])
-        record_score[9] = list[45] + reverse_score(list[46]) + list[47] + reverse_score(list[48]) + reverse_score(list[49])
+
+        record_score = score_record(list, reversed_answers)
 
         for z in range(0,10):
             record_score[z] = record_score[z] * 5 - 25
@@ -77,7 +69,7 @@ def normalize_data(filename):
     global number_of_results
     number_of_results = len(raw_results)
 
-    return group_by_range(raw_results, number_of_results)
+    return group_by_trait_and_score(raw_results)
 
 
 def reverse_score(answer):
@@ -92,131 +84,6 @@ def reverse_score(answer):
     elif answer == 5.0:
         return 1.0
     else: return 0
-
-def group_by_range(results, n):
-    nL = [0] * 5
-    cnL = 0
-    nM = [0] * 5
-    cnM = 0
-    nH = [0] * 5
-    cnH = 0
-    aL = [0] * 5
-    caL = 0
-    aM = [0] * 5
-    caM = 0
-    aH = [0] * 5
-    caH = 0
-    cL = [0] * 5
-    ccL = 0
-    cM = [0] * 5
-    ccM = 0
-    cH = [0] * 5
-    ccH = 0
-    eL = [0] * 5
-    ceL = 0
-    eM = [0] * 5
-    ceM = 0
-    eH = [0] * 5
-    ceH = 0
-    oL = [0] * 5
-    coL = 0
-    oM = [0] * 5
-    coM = 0
-    oH = [0] * 5
-    coH = 0
-
-    for x in results:
-        #print x
-        if x[0] <= 33.3:
-            nL = sum_interests(nL, x)
-            cnL += 1
-        elif x[0] >= 33.4 and x[0] <= 66.6:
-            nM = sum_interests(nM, x)
-            cnM += 1
-        else:
-            nH = sum_interests(nH, x)
-            cnH += 1
-
-        if x[1] <= 33.3:
-            aL = sum_interests(aL, x)
-            caL += 1
-        elif x[1] >= 33.4 and x[1] <= 66.6:
-            aM = sum_interests(aM, x)
-            caM += 1
-        else:
-            aH = sum_interests(aH, x)
-            caH += 1
-
-        if x[2] <= 33.3:
-            cL = sum_interests(cL, x)
-            ccL += 1
-        elif x[2] >= 33.4 and x[2] <= 66.6:
-            cM = sum_interests(cM, x)
-            ccM += 1
-        else:
-            cH = sum_interests(cH, x)
-            ccH += 1
-
-        if x[3] <= 33.3:
-            eL = sum_interests(eL, x)
-            ceL += 1
-        elif x[3] >= 33.4 and x[3] <= 66.6:
-            eM = sum_interests(eM, x)
-            ceM += 1
-        else:
-            eH = sum_interests(eH, x)
-            ceH += 1
-
-        if x[4] <= 33.3:
-            oL = sum_interests(oL, x)
-            coL += 1
-        elif x[4] >= 33.4 and x[4] <= 66.6:
-            oM = sum_interests(oM, x)
-            coM += 1
-        else:
-            oH = sum_interests(oH, x)
-            coH += 1
-
-    nL = average_interest_sums(nL, cnL)
-    nM = average_interest_sums(nM, cnM)
-    nH = average_interest_sums(nH, cnH)
-    aH = average_interest_sums(aH, caH)
-    aM = average_interest_sums(aM, caM)
-    aL = average_interest_sums(aL, caL)
-    cL = average_interest_sums(cL, ccL)
-    cM = average_interest_sums(cM, ccM)
-    cH = average_interest_sums(cH, ccH)
-    eL = average_interest_sums(eL, ceL)
-    eM = average_interest_sums(eM, ceM)
-    eH = average_interest_sums(eH, ceH)
-    oL = average_interest_sums(oL, coL)
-    oM = average_interest_sums(oM, coM)
-    oH = average_interest_sums(oH, coH)
-
-
-    low=[None] * 5
-    med=[None] * 5
-    high = [None] * 5
-
-    low[0] = nL
-    low[1] = aL
-    low[2] = cL
-    low[3] = eL
-    low[4] = oL
-
-    med[0] = nM
-    med[1] = aM
-    med[2] = cM
-    med[3] = eM
-    med[4] = oM
-
-    high[0] = nH
-    high[1] = aH
-    high[2] = cH
-    high[3] = eH
-    high[4] = oH
-
-    return low, med, high
 
 
 def sum_interests(group, result):
@@ -243,12 +110,6 @@ def graph_personality_data(filename):
     e =(low[0][3],med[0][3],high[0][3])
     o =(low[0][4],med[0][4],high[0][4])
     build_plot(title, n, a, c, e, o)
-    print "neuro"
-    print n
-    print a
-    print c
-    print e
-    print o
 
     title = "Agreeableness"
     n =(low[1][0],med[1][0],high[1][0])
@@ -257,12 +118,6 @@ def graph_personality_data(filename):
     e =(low[1][3],med[1][3],high[1][3])
     o =(low[1][4],med[1][4],high[1][4])
     build_plot(title, n, a, c, e, o)
-    print "agree"
-    print n
-    print a
-    print c
-    print e
-    print o
 
     title = "Conscientiousness"
     n =(low[2][0],med[2][0],high[2][0])
@@ -271,12 +126,6 @@ def graph_personality_data(filename):
     e =(low[2][3],med[2][3],high[2][3])
     o =(low[2][4],med[2][4],high[2][4])
     build_plot(title, n, a, c, e, o)
-    print "consc"
-    print n
-    print a
-    print c
-    print e
-    print o
 
     title = "Extroversion"
     n =(low[3][0],med[3][0],high[3][0])
@@ -285,12 +134,6 @@ def graph_personality_data(filename):
     e =(low[3][3],med[3][3],high[3][3])
     o =(low[3][4],med[3][4],high[3][4])
     build_plot(title, n, a, c, e, o)
-    print "extro"
-    print n
-    print a
-    print c
-    print e
-    print o
 
     title = "Openness"
     n =(low[4][0],med[4][0],high[4][0])
@@ -299,12 +142,6 @@ def graph_personality_data(filename):
     e =(low[4][3],med[4][3],high[4][3])
     o =(low[4][4],med[4][4],high[4][4])
     build_plot(title, n, a, c, e, o)
-    print "openn"
-    print n
-    print a
-    print c
-    print e
-    print o
 
     global number_of_results
     title = "Desirability of Personality Traits (n = " + str(number_of_results) + ")"
@@ -315,12 +152,6 @@ def graph_personality_data(filename):
     o =(low[4][4]+med[4][4]+high[4][4]) / 3
     all = (n, a, c, e, o)
     overall_interests_plot(title, all)
-    print "overall"
-    print n
-    print a
-    print c
-    print e
-    print o
 
 def overall_interests_plot(chart_title, all):
     n_groups = 5
@@ -355,6 +186,34 @@ def score_record(record, rev_score):
                 composite_scores[x / 5] += record[x + y]
     return composite_scores
 
+def group_by_trait_and_score(results):
+    low  = [[0 for i in range(5)] for j in range(5)]
+    med  = [[0 for i in range(5)] for j in range(5)]
+    high = [[0 for i in range(5)] for j in range(5)]
 
+    low_counts  = [0] * 5
+    med_counts  = [0] * 5
+    high_counts = [0] * 5
 
+    for result in results:
+        for x in range(0,5):
+            if result[x] <= 33.3:
+                low[x] = sum_interests(low[x], result)
+                low_counts[x] += 1
+            elif result[x] > 66.6:
+                high[x] = sum_interests(high[x], result)
+                high_counts[x] += 1
+            else:
+                med[x] = sum_interests(med[x], result)
+                med_counts[x] += 1
 
+    low = average_score_group(low, low_counts)
+    med = average_score_group(med, med_counts)
+    high = average_score_group(high, high_counts)
+
+    return low, med, high
+
+def average_score_group(group, counts):
+    for x in range(0,len(group)):
+        group[x] = average_interest_sums(group[x], counts[x])
+    return group
