@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 number_of_results = 0
 
 def build_plot(chart_title, n, a, c, e, o):
@@ -32,7 +33,7 @@ def build_plot(chart_title, n, a, c, e, o):
     rects4 = plt.bar(index + bar_width*3, e, bar_width,
                      alpha=opacity,
                      color='b',
-                     label='Extraversion')
+                     label='Extroversion')
 
     rects5 = plt.bar(index + bar_width*4, o, bar_width,
                      alpha=opacity,
@@ -50,34 +51,34 @@ def build_plot(chart_title, n, a, c, e, o):
 
 def normalize_data(filename):
     with open(filename) as file:
-        lines = file.readlines()
-        lines = [x.strip('\n') for x in lines]
-    for x in range(0, len(lines)):
-        list = lines[x].split(',')
+        raw_results = file.readlines()
+        raw_results = [x.strip('\n') for x in raw_results]
+    for x in range(0, len(raw_results)):
+        list = raw_results[x].split(',')
         list = [float(z) for z in list]
-        normal_result = [0] * 10
-        normal_result[0] = list[0] + list[1] + list[2] + list[3] + list[4]
-        normal_result[1] = reverse_score(list[5]) + list[6] + list[7] + reverse_score(list[8]) + reverse_score(list[9])
-        normal_result[2] = list[10] + reverse_score(list[11]) + list[12] + list[13] + list[14]
-        normal_result[3] = list[15] + reverse_score(list[16]) + list[17] + list[18] + list[19]
-        normal_result[4] = list[20] + list[21] + reverse_score(list[22]) + list[23] + list[24]
-        normal_result[5] = list[25] + list[26] + list[27] + reverse_score(list[28]) + list[29]
-        normal_result[6] = reverse_score(list[30]) + reverse_score(list[31]) + list[32] + reverse_score(list[33]) + reverse_score(list[34])
-        normal_result[7] = list[35] + reverse_score(list[36]) + list[37] + reverse_score(list[38]) + list[39]
-        normal_result[8] = reverse_score(list[40]) + list[41] + list[42] + reverse_score(list[43]) + reverse_score(list[44])
-        normal_result[9] = list[45] + reverse_score(list[46]) + list[47] + reverse_score(list[48]) + reverse_score(list[49])
+        record_score = [0] * 10
+        record_score[0] = list[0] + list[1] + list[2] + list[3] + list[4]
+        record_score[1] = reverse_score(list[5]) + list[6] + list[7] + reverse_score(list[8]) + reverse_score(list[9])
+        record_score[2] = list[10] + reverse_score(list[11]) + list[12] + list[13] + list[14]
+        record_score[3] = list[15] + reverse_score(list[16]) + list[17] + list[18] + list[19]
+        record_score[4] = list[20] + list[21] + reverse_score(list[22]) + list[23] + list[24]
+        record_score[5] = list[25] + list[26] + list[27] + reverse_score(list[28]) + list[29]
+        record_score[6] = reverse_score(list[30]) + reverse_score(list[31]) + list[32] + reverse_score(list[33]) + reverse_score(list[34])
+        record_score[7] = list[35] + reverse_score(list[36]) + list[37] + reverse_score(list[38]) + list[39]
+        record_score[8] = reverse_score(list[40]) + list[41] + list[42] + reverse_score(list[43]) + reverse_score(list[44])
+        record_score[9] = list[45] + reverse_score(list[46]) + list[47] + reverse_score(list[48]) + reverse_score(list[49])
 
         for z in range(0,10):
-            normal_result[z] = normal_result[z] * 5 - 25
+            record_score[z] = record_score[z] * 5 - 25
 
-        lines[x] = normal_result
-        #print normal_result
+        raw_results[x] = record_score
+        #print record_score
 
     global number_of_results
-    number_of_results = len(lines)
-    return group_by_range(lines, number_of_results)
+    number_of_results = len(raw_results)
 
-    raw_input("ENTER")
+    return group_by_range(raw_results, number_of_results)
+
 
 def reverse_score(answer):
     if answer == 1.0:
@@ -242,6 +243,12 @@ def graph_personality_data(filename):
     e =(low[0][3],med[0][3],high[0][3])
     o =(low[0][4],med[0][4],high[0][4])
     build_plot(title, n, a, c, e, o)
+    print "neuro"
+    print n
+    print a
+    print c
+    print e
+    print o
 
     title = "Agreeableness"
     n =(low[1][0],med[1][0],high[1][0])
@@ -250,6 +257,12 @@ def graph_personality_data(filename):
     e =(low[1][3],med[1][3],high[1][3])
     o =(low[1][4],med[1][4],high[1][4])
     build_plot(title, n, a, c, e, o)
+    print "agree"
+    print n
+    print a
+    print c
+    print e
+    print o
 
     title = "Conscientiousness"
     n =(low[2][0],med[2][0],high[2][0])
@@ -258,14 +271,26 @@ def graph_personality_data(filename):
     e =(low[2][3],med[2][3],high[2][3])
     o =(low[2][4],med[2][4],high[2][4])
     build_plot(title, n, a, c, e, o)
+    print "consc"
+    print n
+    print a
+    print c
+    print e
+    print o
 
-    title = "Extraversion"
+    title = "Extroversion"
     n =(low[3][0],med[3][0],high[3][0])
     a =(low[3][1],med[3][1],high[3][1])
     c =(low[3][2],med[3][2],high[3][2])
     e =(low[3][3],med[3][3],high[3][3])
     o =(low[3][4],med[3][4],high[3][4])
     build_plot(title, n, a, c, e, o)
+    print "extro"
+    print n
+    print a
+    print c
+    print e
+    print o
 
     title = "Openness"
     n =(low[4][0],med[4][0],high[4][0])
@@ -274,6 +299,12 @@ def graph_personality_data(filename):
     e =(low[4][3],med[4][3],high[4][3])
     o =(low[4][4],med[4][4],high[4][4])
     build_plot(title, n, a, c, e, o)
+    print "openn"
+    print n
+    print a
+    print c
+    print e
+    print o
 
     global number_of_results
     title = "Desirability of Personality Traits (n = " + str(number_of_results) + ")"
@@ -281,9 +312,15 @@ def graph_personality_data(filename):
     a =(low[1][1]+med[1][1]+high[1][1]) / 2
     c =(low[2][2]+med[2][2]+high[2][2]) / 3
     e =(low[3][3]+med[3][3]+high[3][3]) / 3
-    o =(low[4][4]+med[4][4]+high[4][4]) / 2
+    o =(low[4][4]+med[4][4]+high[4][4]) / 3
     all = (n, a, c, e, o)
     overall_interests_plot(title, all)
+    print "overall"
+    print n
+    print a
+    print c
+    print e
+    print o
 
 def overall_interests_plot(chart_title, all):
     n_groups = 5
@@ -302,9 +339,22 @@ def overall_interests_plot(chart_title, all):
     plt.xlabel('Dimension')
     plt.ylabel('Average Expressed Interest')
     plt.title(chart_title)
-    plt.xticks(index, ('Neuroticism', 'Agreeableness', 'Conscientiousness', 'Extraversion', 'Openness'))
+    plt.xticks(index, ('Neuroticism', 'Agreeableness', 'Conscientiousness', 'Extroversion', 'Openness'))
     plt.legend()
 
     plt.tight_layout()
     plt.show()
+
+def score_record(record, rev_score):
+    composite_scores = [0] * 10
+    for x in range(0,len(record),5):
+        for y in range(0,5):
+            if (x + y + 1) in rev_score:
+                composite_scores[x / 5] += reverse_score(record[x + y])
+            else:
+                composite_scores[x / 5] += record[x + y]
+    return composite_scores
+
+
+
 
