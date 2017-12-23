@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+# py.test -f --cov . test/
 
 number_of_results = 0
 reversed_answers = [6,9,10,12,17,23,29,31,32,34,35,37,39,41,44,45,47,49,50]

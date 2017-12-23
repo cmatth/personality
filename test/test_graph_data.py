@@ -93,3 +93,19 @@ def test_separete_by_trait_and_score_group():
     assert g.separate_by_trait_and_score_group(2, low, med, high) == expected
     assert g.separate_by_trait_and_score_group(3, low, med, high) == expected
     assert g.separate_by_trait_and_score_group(4, low, med, high) == expected
+
+def test_build_plot():
+    import matplotlib.pyplot as plt
+    fig = plt.figure()
+    data = ((1,3,5),(1,3,5),(1,3,5),(1,3,5),(1,3,5))
+    title = 'test'
+    position = 1
+    g.build_plot(fig,position,title,data)
+
+def test_graph_personality_data():
+    import matplotlib.pyplot as plt
+    import time
+    plt.close('all')
+    g.graph_personality_data('test/test_data.txt')
+    time.sleep(3)
+    plt.close()
