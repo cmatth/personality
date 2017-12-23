@@ -5,38 +5,38 @@ import matplotlib.pyplot as plt
 number_of_results = 0
 reversed_answers = [6,9,10,12,17,23,29,31,32,34,35,37,39,41,44,45,47,49,50]
 
-def build_plot(chart_title, n, a, c, e, o):
+def build_plot(fig, position, chart_title, scores):
     # data to plot
     n_groups = 3
 
 
     # create plot
-    fig, ax = plt.subplots()
+    fig.add_subplot(2,3,position)
     index = np.arange(3)
     bar_width = 0.15
     opacity = 0.8
 
-    rects1 = plt.bar(index, n, bar_width,
+    rects1 = plt.bar(index, scores[0], bar_width,
                      alpha=opacity,
                      color='y',
                      label='Neuroticism')
 
-    rects2 = plt.bar(index + bar_width, a, bar_width,
+    rects2 = plt.bar(index + bar_width, scores[1], bar_width,
                      alpha=opacity,
                      color='g',
                      label='Agreeableness')
 
-    rects3 = plt.bar(index + bar_width*2, c, bar_width,
+    rects3 = plt.bar(index + bar_width*2, scores[2], bar_width,
                      alpha=opacity,
                      color='m',
                      label='Conscientiousness')
 
-    rects4 = plt.bar(index + bar_width*3, e, bar_width,
+    rects4 = plt.bar(index + bar_width*3, scores[3], bar_width,
                      alpha=opacity,
                      color='b',
                      label='Extroversion')
 
-    rects5 = plt.bar(index + bar_width*4, o, bar_width,
+    rects5 = plt.bar(index + bar_width*4, scores[4], bar_width,
                      alpha=opacity,
                      color='c',
                      label='Openness')
@@ -45,10 +45,6 @@ def build_plot(chart_title, n, a, c, e, o):
     plt.ylabel('Average Interest in Personality Dimension')
     plt.title('Dimension: ' + chart_title)
     plt.xticks(index + bar_width, ('0-33.3', '33.4-66.6', '66.7-100'))
-    plt.legend()
-
-    plt.tight_layout()
-    plt.show()
 
 def normalize_data(filename):
     with open(filename) as file:
@@ -103,45 +99,27 @@ def average_interest_sums(interest_group, count):
 def graph_personality_data(filename):
     low, med, high = normalize_data(filename)
 
+    fig = plt.figure()
+
     title = "Neuroticism"
-    n =(low[0][0],med[0][0],high[0][0])
-    a =(low[0][1],med[0][1],high[0][1])
-    c =(low[0][2],med[0][2],high[0][2])
-    e =(low[0][3],med[0][3],high[0][3])
-    o =(low[0][4],med[0][4],high[0][4])
-    build_plot(title, n, a, c, e, o)
+    scores = separate_by_trait_and_score_group(0,low,med,high)
+    build_plot(fig, 1, title, scores)
 
     title = "Agreeableness"
-    n =(low[1][0],med[1][0],high[1][0])
-    a =(low[1][1],med[1][1],high[1][1])
-    c =(low[1][2],med[1][2],high[1][2])
-    e =(low[1][3],med[1][3],high[1][3])
-    o =(low[1][4],med[1][4],high[1][4])
-    build_plot(title, n, a, c, e, o)
+    scores = separate_by_trait_and_score_group(0, low, med, high)
+    build_plot(fig, 2, title, scores)
 
     title = "Conscientiousness"
-    n =(low[2][0],med[2][0],high[2][0])
-    a =(low[2][1],med[2][1],high[2][1])
-    c =(low[2][2],med[2][2],high[2][2])
-    e =(low[2][3],med[2][3],high[2][3])
-    o =(low[2][4],med[2][4],high[2][4])
-    build_plot(title, n, a, c, e, o)
+    scores = separate_by_trait_and_score_group(0, low, med, high)
+    build_plot(fig, 3, title, scores)
 
     title = "Extroversion"
-    n =(low[3][0],med[3][0],high[3][0])
-    a =(low[3][1],med[3][1],high[3][1])
-    c =(low[3][2],med[3][2],high[3][2])
-    e =(low[3][3],med[3][3],high[3][3])
-    o =(low[3][4],med[3][4],high[3][4])
-    build_plot(title, n, a, c, e, o)
+    scores = separate_by_trait_and_score_group(0, low, med, high)
+    build_plot(fig, 4, title, scores)
 
     title = "Openness"
-    n =(low[4][0],med[4][0],high[4][0])
-    a =(low[4][1],med[4][1],high[4][1])
-    c =(low[4][2],med[4][2],high[4][2])
-    e =(low[4][3],med[4][3],high[4][3])
-    o =(low[4][4],med[4][4],high[4][4])
-    build_plot(title, n, a, c, e, o)
+    scores = separate_by_trait_and_score_group(0, low, med, high)
+    build_plot(fig, 5, title, scores)
 
     global number_of_results
     title = "Desirability of Personality Traits (n = " + str(number_of_results) + ")"
@@ -151,14 +129,12 @@ def graph_personality_data(filename):
     e =(low[3][3]+med[3][3]+high[3][3]) / 3
     o =(low[4][4]+med[4][4]+high[4][4]) / 3
     all = (n, a, c, e, o)
-    overall_interests_plot(title, all)
+    overall_interests_plot(fig, 6, title, all)
+    plt.show()
 
-def overall_interests_plot(chart_title, all):
-    n_groups = 5
-
-
+def overall_interests_plot(fig, position, chart_title, all):
     # create plot
-    fig, ax = plt.subplots()
+    fig.add_subplot(2,3,6)
     index = np.arange(5)
     bar_width = 0.4
     opacity = 0.8
@@ -171,10 +147,6 @@ def overall_interests_plot(chart_title, all):
     plt.ylabel('Average Expressed Interest')
     plt.title(chart_title)
     plt.xticks(index, ('Neuroticism', 'Agreeableness', 'Conscientiousness', 'Extroversion', 'Openness'))
-    plt.legend()
-
-    plt.tight_layout()
-    plt.show()
 
 def score_record(record, rev_score):
     composite_scores = [0] * 10
@@ -217,3 +189,11 @@ def average_score_group(group, counts):
     for x in range(0,len(group)):
         group[x] = average_interest_sums(group[x], counts[x])
     return group
+
+def separate_by_trait_and_score_group(trait_index, low, med, high):
+    n =(low[trait_index][0],med[trait_index][0],high[trait_index][0])
+    a =(low[trait_index][1],med[trait_index][1],high[trait_index][1])
+    c =(low[trait_index][2],med[trait_index][2],high[trait_index][2])
+    e =(low[trait_index][3],med[trait_index][3],high[trait_index][3])
+    o =(low[trait_index][4],med[trait_index][4],high[trait_index][4])
+    return (n,a,c,e,o)

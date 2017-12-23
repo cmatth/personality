@@ -69,9 +69,6 @@ def test_group_by_trait_and_score():
 def test_normalize_data():
     filename = "test/test_data.txt"
     low, med, high = g.normalize_data(filename)
-    print low
-    print med
-    print high
     assert low == [[27.5, 90.0, 52.5, 67.5, 62.5], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0],
                    [15.0, 100.0, 65.0, 70.0, 75.0], [40.0, 85.0, 50.0, 65.0, 60.0]]
     assert med == [[15.0, 100.0, 65.0, 70.0, 75.0], [0, 0, 0, 0, 0], [40.0, 85.0, 50.0, 65.0, 60.0],
@@ -85,3 +82,14 @@ def test_average_score_group():
     avg = [[1 for i in range(5)] for j in range(5)]
     counts = [5,5,5,5,5]
     assert g.average_score_group(test, counts) == avg
+
+def test_separete_by_trait_and_score_group():
+    low  = [[1,2,3,4,5],[1,2,3,4,5],[1,2,3,4,5],[1,2,3,4,5],[1,2,3,4,5]]
+    med  = [[1,2,3,4,5],[1,2,3,4,5],[1,2,3,4,5],[1,2,3,4,5],[1,2,3,4,5]]
+    high = [[1,2,3,4,5],[1,2,3,4,5],[1,2,3,4,5],[1,2,3,4,5],[1,2,3,4,5]]
+    expected = ((1,1,1),(2,2,2),(3,3,3),(4,4,4),(5,5,5))
+    assert g.separate_by_trait_and_score_group(0, low, med, high) == expected
+    assert g.separate_by_trait_and_score_group(1, low, med, high) == expected
+    assert g.separate_by_trait_and_score_group(2, low, med, high) == expected
+    assert g.separate_by_trait_and_score_group(3, low, med, high) == expected
+    assert g.separate_by_trait_and_score_group(4, low, med, high) == expected
